@@ -1,0 +1,199 @@
+package com.example.android_my_ffmpeg_demo1;
+
+import android.util.Log;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import android.app.Activity;
+import android.content.pm.ActivityInfo;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.Surface;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.SurfaceHolder.Callback;
+
+@SuppressWarnings("deprecation")
+public class MainActivity extends Activity implements Callback {
+	Surface mLocalSurface;
+	SurfaceView mRemoteView;
+	SurfaceHolder mRemoteSurfaceHolder;
+	int i=0,j=0;
+	boolean remoteVideoVisible = true;
+	int previewWidth = 240, previewHeight = 240;
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		final Window win = getWindow();
+
+		win.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置标志
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 请求窗口特征
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);// 设置请求定位
+		setContentView(R.layout.activity_main);
+
+		mRemoteView = (SurfaceView) findViewById(R.id.remoteView);
+
+		mRemoteSurfaceHolder = mRemoteView.getHolder();
+		mRemoteSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_GPU);
+
+		mRemoteSurfaceHolder.addCallback(this);
+		mRemoteSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
+		mLocalSurface = mRemoteSurfaceHolder.getSurface();
+		
+		
+		
+	
+
+		
+		
+		// LocalServerSocket my_ServerSocket;
+		// try {
+		// my_ServerSocket = new LocalServerSocket("myVideoStream");
+		// } catch (IOException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
+	}
+
+	public class Getdata extends Thread {
+
+		public void getdata2() throws IOException {
+			File files = new File(Environment.getExternalStorageDirectory() + File.separator + "sintel.yuv");
+			Log.e("当前线程：", Thread.currentThread().getName());
+			byte[] byte1 = new byte[640 * 360 * 3 / 2];
+			FileInputStream is = null;
+			is = new FileInputStream(files);
+
+			// LocalSocket mReceiver= new LocalSocket();
+			// mReceiver.connect( new LocalSocketAddress("myVideoStream"));
+			// mReceiver.setReceiveBufferSize(500);
+
+			while (is.read(byte1) != -1) {
+				System.out.println("读取---读取数据--"+(++i));
+				drawRemoteVideo(byte1, 640, 360);
+				System.out.println("读取---读取数据--"+(++i));
+				
+			}
+			is.close();
+		}
+
+		public void run() {
+			try {
+				getdata2();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
+	private void drawRemoteVideo(final byte[] imageData, int width, int height) {
+		System.out.println("读取---ooo--"+(++j));
+		
+		int[] rgb = decodeYUV420P(imageData, width, height);
+		Bitmap bmp = Bitmap.createBitmap(rgb, width, height, Bitmap.Config.ARGB_8888);
+		bmp = Bitmap.createScaledBitmap(bmp, mRemoteView.getWidth(), mRemoteView.getHeight(), true);
+		Canvas canvas = mRemoteSurfaceHolder.lockCanvas();
+		
+		canvas.drawBitmap(bmp, 0, 0, null);
+		System.out.println("读取---ooo--"+(++j));
+		mRemoteSurfaceHolder.unlockCanvasAndPost(canvas);
+	}
+
+	/*
+	 * 420sp 转 RGB public int[] decodeYUV420SP(byte[] yuv420sp, int width, int
+	 * height) { final int frameSize = width * height; int rgb[] = new int[width
+	 * * height]; for (int j = 0, yp = 0; j < height; j++) { int uvp = frameSize
+	 * + (j >> 1) * width, u = 0, v = 0; for (int i = 0; i < width; i++, yp++) {
+	 * int y = (0xff & ((int) yuv420sp[yp])) - 16; if (y < 0) y = 0; if ((i & 1)
+	 * == 0) { v = (0xff & yuv420sp[uvp++]) - 128; u = (0xff & yuv420sp[uvp++])
+	 * - 128; }
+	 * 
+	 * int y1192 = 1192 * y; int r = (y1192 + 1634 * v); int g = (y1192 - 833 *
+	 * v - 400 * u); int b = (y1192 + 2066 * u);
+	 * 
+	 * if (r < 0) r = 0; else if (r > 262143) r = 262143; if (g < 0) g = 0; else
+	 * if (g > 262143) g = 262143; if (b < 0) b = 0; else if (b > 262143) b =
+	 * 262143;
+	 * 
+	 * rgb[yp] = 0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b
+	 * >> 10) & 0xff);
+	 * 
+	 * } } return rgb; }
+	 */
+
+	/*
+	 * 420p 转 RGB
+	 */
+	public int[] decodeYUV420P(byte[] yuv420sp, int width, int height) {
+		final int frameSize = width * height;
+		int rgb[] = new int[width * height];
+		for (int j = 0, yp = 0; j < height; j++) {
+			int uvp = frameSize + (j >> 2) * width, u = 0, v = 0;
+			int uvp2 = frameSize + (j >> 2) * width + height / 4 * width;
+			for (int i = 0; i < width; i++, yp++) {
+				int y = (0xff & ((int) yuv420sp[yp])) - 16;
+				if (y < 0)
+					y = 0;
+				if ((i & 1) == 0) {
+					u = (0xff & yuv420sp[uvp++]) - 128;
+					v = (0xff & yuv420sp[uvp2++]) - 128;
+				}
+
+				int y1192 = 1192 * y;
+				int r = (y1192 + 1634 * v);
+				int g = (y1192 - 833 * v - 400 * u);
+				int b = (y1192 + 2066 * u);
+
+				if (r < 0)
+					r = 0;
+				else if (r > 262143)
+					r = 262143;
+				if (g < 0)
+					g = 0;
+				else if (g > 262143)
+					g = 262143;
+				if (b < 0)
+					b = 0;
+				else if (b > 262143)
+					b = 262143;
+
+				rgb[yp] = 0xff000000 | ((r << 6) & 0xff0000) | ((g >> 2) & 0xff00) | ((b >> 10) & 0xff);
+
+			}
+		}
+		return rgb;
+	}
+
+
+	
+	@Override
+	public void surfaceCreated(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		Thread aThread = new Getdata();
+		aThread.start();
+	}
+
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void surfaceDestroyed(SurfaceHolder holder) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+}

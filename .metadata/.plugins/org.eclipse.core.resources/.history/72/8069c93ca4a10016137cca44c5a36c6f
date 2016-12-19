@@ -1,0 +1,21 @@
+package com.minaclient;
+
+import javax.xml.stream.events.StartDocument;
+
+import com.datadeal.SocketConn;
+
+public class MimaTimeClient {
+
+	public static void main(String[] args) {
+		while(true){
+			SocketConn[] s=new SocketConn[5];
+			for(int i=0;i<5;i++){
+				s[i]=new SocketConn();
+				System.out.println("建立线程");
+				s[i].start();	
+				
+			}
+		}
+		// 关闭
+	}
+}

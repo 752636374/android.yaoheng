@@ -1,0 +1,132 @@
+package com.socket.data;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import com.music.mysql.Mysqlcon;
+
+public class Skserver extends Thread{
+	private Socket socket;
+	private int port=8919;
+	private PrintStream pStream1;
+	private InputStreamReader inputStreamReader;
+	private ServerSocket serverSocket;
+	private ArrayList<Object> ss,string1,string2,string3,string4,string5,string6,string7,string8,string9;
+	
+	private StringBuilder builder=new StringBuilder();
+	private String s1,s2,s3,s4,s5,s6,s7,s8,s9=new String();
+	private String[] arr1,arr2,arr3,arr4,arr5,arr6,arr7,arr8,arr9;
+	private int a1,a2,a3,a4,a5,a6,a7,a8,a9;
+	public Skserver() {
+		// TODO Auto-generated constructor stub
+	}
+	public void server() throws IOException, SQLException{
+		
+		
+		serverSocket=new ServerSocket(port);
+		while(true){
+			
+			socket=serverSocket.accept();
+			System.out.println("服务器收到");
+			inputStreamReader=new InputStreamReader(socket.getInputStream());
+			char chars[]=new char[1024];
+			int len;
+			while((len=inputStreamReader.read(chars))!=-1){
+				ss=new ArrayList<>();
+				builder.append(chars,0,len);
+				String[] arr=(builder.toString()).split("end");
+				ss.addAll(Arrays.asList(arr));
+					
+			}
+			init();	
+			try {
+				output();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}	
+			
+			String s=Mysqlcon.getdata();	
+			pStream1=new PrintStream(socket.getOutputStream());
+			pStream1.println(s);
+			pStream1.flush();
+			pStream1.close();
+			socket.close();
+		}
+			
+	}
+	public void init(){
+			string1=new ArrayList<>();
+			string2=new ArrayList<>();
+			string3=new ArrayList<>();
+			string4=new ArrayList<>();
+			string5=new ArrayList<>();
+			string6=new ArrayList<>();
+			string7=new ArrayList<>();
+			string8=new ArrayList<>();
+			string9=new ArrayList<>();
+			
+			s1=(ss.get(0)).toString();
+			s2=(ss.get(1)).toString();
+			s3=(ss.get(2)).toString();
+			s4=(ss.get(3)).toString();
+  		    s5=(ss.get(4)).toString();
+			s6=(ss.get(5)).toString();
+			s7=(ss.get(6)).toString();
+			s8=(ss.get(7)).toString();
+			s9=(ss.get(8)).toString();	
+			
+			arr1=s1.split(" ");
+			string1.addAll(Arrays.asList(arr1));
+			arr2=s2.split(" ");
+			string2.addAll(Arrays.asList(arr2));
+			arr3=s3.split(" ");
+			string3.addAll(Arrays.asList(arr3));
+			arr4=s4.split(" ");
+			string4.addAll(Arrays.asList(arr4));
+			arr5=s5.split(" ");
+			string5.addAll(Arrays.asList(arr5));
+			arr6=s6.split(" ");
+			string6.addAll(Arrays.asList(arr6));
+			arr7=s7.split(" ");
+			string7.addAll(Arrays.asList(arr7));
+			arr8=s8.split(" ");
+			string8.addAll(Arrays.asList(arr8));
+			arr9=s9.split(" ");
+			string9.addAll(Arrays.asList(arr9));
+	}
+	public void output() throws InterruptedException{
+		while(true){
+			for(;a1<string1.size()&&a2<string2.size()&&a3<string3.size()&&a4<string4.size()&&a5<string5.size()&&a6<string6.size()&&a7<string7.size()&&a8<string8.size()&&a9<string9.size();a1++,a2++,a3++,a4++,a5++,a6++,a7++,a8++,a9++){
+				System.out.print(string1.get(a1));
+				if(a1+1>=string1.size()){a1=-1;}
+				System.out.print(string2.get(a2));
+				if(a2+1>=string2.size()){a2=-1;}
+				System.out.print(string3.get(a3));
+				if(a3+1>=string3.size()){a3=-1;}
+				System.out.print(string4.get(a4));
+				if(a4+1>=string4.size()){a4=-1;}
+				System.out.print(string5.get(a5));
+				if(a5+1>=string5.size()){a5=-1;}
+				System.out.print(string6.get(a6));
+				if(a6+1>=string6.size()){a6=-1;}
+				System.out.print(string7.get(a7));
+				if(a7+1>=string7.size()){a7=-1;}
+				System.out.print(string8.get(a8));
+				if(a8+1>=string8.size()){a8=-1;}
+				System.out.print(string9.get(a9));
+				if(a9+1>=string9.size()){a9=-1;}
+				System.out.print("下一条数据");
+				Thread.sleep(3000);
+			}
+		}
+				
+	}
+}

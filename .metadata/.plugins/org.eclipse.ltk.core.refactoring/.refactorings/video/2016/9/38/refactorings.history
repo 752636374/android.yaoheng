@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy 7 elements to &apos;drawable&apos;&#x0D;&#x0A;- Original project: &apos;video&apos;&#x0D;&#x0A;- Destination element: &apos;drawable&apos;&#x0D;&#x0A;- Original elements:&#x0D;&#x0A;     previous1.png&#x0D;&#x0A;     sound1.png&#x0D;&#x0A;     fullscreen.png&#x0D;&#x0A;     stop1.png&#x0D;&#x0A;     next1.png&#x0D;&#x0A;     play1.png&#x0D;&#x0A;     narrow1.png" description="Copy files" element1="res/drawable/previous1.png" element2="res/drawable/sound1.png" element3="res/drawable/fullscreen.png" element4="res/drawable/stop1.png" element5="res/drawable/next1.png" element6="res/drawable/play1.png" element7="res/drawable/narrow1.png" files="7" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1473728215140" target="/VideoPlay/res/drawable" units="0" version="1.0"/>
+</session>

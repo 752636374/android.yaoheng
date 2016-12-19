@@ -1,0 +1,7 @@
+14:57:40 **** Incremental Build of configuration Default for project Myhhhhffpegtest ****
+"E:\\study\\android-ndk-r10b\\ndk-build.cmd" all 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 15 in ./AndroidManifest.xml    
+[armeabi] Install        : libMyhhhhffpegtest.so => libs/armeabi/libMyhhhhffpegtest.so
+
+14:57:42 Build Finished (took 1s.169ms)
+

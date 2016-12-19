@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login"
+    android:orientation="vertical" >
+    
+	<LinearLayout 
+	    android:layout_width="80dp"
+	    android:layout_height="120dp"
+	    android:orientation="vertical"
+	    android:gravity="center_horizontal"
+	    >
+	</LinearLayout>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    >
+	    <TextView 
+	        android:text="@string/username"
+	        android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	        android:textSize="15sp"/>
+	    <EditText 
+	        android:id="@+id/usernameET"
+	        android:hint="请输入用户名"
+	        android:layout_width="match_parent"
+	   		android:layout_height="wrap_content"
+	        android:textSize="20sp"/>
+	</LinearLayout>
+	    
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    >
+	    <TextView 
+	        android:text="@string/password"
+	        android:layout_width="wrap_content"
+	   		android:layout_height="wrap_content"
+	        android:textSize="15sp"/>
+	    <EditText 
+	        android:hint="请输入密码"
+	        android:id="@+id/passwordET"
+	        android:inputType="textPassword"
+	        android:layout_width="match_parent"
+	   		android:layout_height="wrap_content"
+	        android:textSize="20sp"/>
+	</LinearLayout>
+	
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal">
+	    
+	    <Button 
+		    android:id="@+id/registerButtton"
+		    android:layout_width="wrap_content"
+		   	android:layout_height="wrap_content"
+		   	android:textSize="15sp"
+		   	android:text="@string/register"/>
+	    
+	    <LinearLayout 
+	        android:orientation="vertical" 
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content" >
+	        <Button 
+			    android:id="@+id/loginButton"
+			    android:layout_width="wrap_content"
+			   	android:layout_height="wrap_content"
+			   	android:textSize="15sp"
+			    android:layout_gravity="right"
+			   	android:text="@string/login"/> 
+        </LinearLayout>
+	    
+	</LinearLayout>
+	
+	    
+	
+</LinearLayout>

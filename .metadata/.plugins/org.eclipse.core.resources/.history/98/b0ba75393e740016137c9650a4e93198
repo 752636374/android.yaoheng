@@ -1,0 +1,59 @@
+package com.music.mysql;
+
+import java.io.Reader;
+import java.security.PublicKey;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.Driver;
+import com.mysql.jdbc.PreparedStatement;
+
+public class Mysqlcon {
+	static String driver="com.mysql.jdbc.Driver";
+	static String url="jdbc:mysql://localhost:3306/mydb";
+	static String username="root";
+	static String password="";
+	static Connection conn=null;
+	public Mysqlcon() {
+		// TODO Auto-generated constructor stub
+//		String driver,String url,String username,String password
+//		this.driver=driver;
+//		this.url=url;
+//		this.username=username;
+//		this.password=password;
+	}
+	public static Connection getConn(){
+		try {
+			Class.forName(driver);
+			conn=(Connection) DriverManager.getConnection(url,username,password);
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return conn;
+	}
+	public static String getdata() throws SQLException{
+		Connection connection=getConn();
+		String sql="select * from muvie";
+		PreparedStatement preparedStatement;
+		String s = null;
+		
+			preparedStatement=(PreparedStatement) connection.prepareStatement(sql);
+			ResultSet resultSet=preparedStatement.executeQuery();
+			int res=resultSet.getMetaData().getColumnCount();
+			while(resultSet.next()){
+				for(int i=1;1<i&&i<=res;i++){
+					System.out.print(resultSet.getString(i) + "\n");
+					s+=(resultSet.getString(i)+" ");		
+				}
+			}		
+		return s;
+		
+	}
+
+}

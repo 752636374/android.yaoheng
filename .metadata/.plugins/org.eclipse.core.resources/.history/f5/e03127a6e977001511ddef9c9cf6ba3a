@@ -1,0 +1,9 @@
+package com.pull.parser;
+
+public class PullXMLTools {
+
+	public PullXMLTools() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

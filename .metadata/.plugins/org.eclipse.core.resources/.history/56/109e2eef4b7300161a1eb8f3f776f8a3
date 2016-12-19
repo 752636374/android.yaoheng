@@ -1,0 +1,38 @@
+package com.socket.test;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import javax.sound.sampled.Port;
+
+public class Sockettest {
+	static int port=8919;
+	static String host="127.0.0.1";
+	public Sockettest() {
+		// TODO Auto-generated constructor stub
+		this.port=port;
+		this.host=host;
+		
+	}
+	
+	public static void main(String[] args) throws UnknownHostException, IOException {
+		// TODO Auto-generated method stub
+		Socket socket=new Socket(host, port);
+		//Reader reader=new InputStreamReader(socket.getInputStream());
+		InputStreamReader reader2=new InputStreamReader(socket.getInputStream());
+		char chars[]=new char[1024];
+		int len;
+		StringBuilder builder=new StringBuilder();
+		while((len=reader2.read(chars))!=-1){
+			builder.append(chars,0,len);
+			System.out.println("我是接受数据"+reader2);
+		}
+		
+		
+		socket.close();
+	}
+	
+}

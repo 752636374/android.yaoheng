@@ -1,0 +1,9 @@
+package test2;
+
+public class Testyuv_rgb {
+
+	public Testyuv_rgb() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

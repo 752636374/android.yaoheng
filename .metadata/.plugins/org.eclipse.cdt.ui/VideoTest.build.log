@@ -1,0 +1,7 @@
+11:00:57 **** Incremental Build of configuration Default for project VideoTest ****
+"E:\\study\\android-ndk-r10b\\ndk-build.cmd" all 
+Android NDK: WARNING: APP_PLATFORM android-19 is larger than android:minSdkVersion 17 in ./AndroidManifest.xml    
+[armeabi] Install        : libmy-ndk.so => libs/armeabi/libmy-ndk.so
+
+11:00:58 Build Finished (took 398ms)
+
